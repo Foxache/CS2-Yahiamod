@@ -63,7 +63,7 @@ All features here are (mostly) spoiler free. For a deeper look on these features
 
 **Important video** - If you stand infront of your computer and open main.py 50 times , some say you will get an important video...
 
-**Lemur** - surprise!
+**Lemur** - Think fast chucklenuts!
 
 **DR whatsapp** - You get a paper cut and lose some health , so you whatsapp your doctor for help.
 
