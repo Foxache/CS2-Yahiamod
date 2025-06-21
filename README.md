@@ -17,7 +17,10 @@ You also need PIP for the extra packages , pip can be found on its native websit
 Next , you need to install all the Packages that Python needs to run this project:
 1) open a terminal window (search "terminal")
 2) Paste this command:
+
    py -m pip install tk opencv-python pillow pynput pygame flask pyautogui
+
+   
 If the project opens , but swiftly closes , you are probably missing one of these!
 
 Next you need to place the configuration file that Yahiamod uses to communicate with Counter strike.
