@@ -18,7 +18,7 @@ Next , you need to install all the Packages that Python needs to run this projec
 1) open a terminal window (search "terminal")
 2) Paste this command:
 
-   py -m pip install tk opencv-python pillow pynput pygame flask pyautogui rich
+   py -m pip install tk opencv-python pillow pynput pygame flask pyautogui 
 
    
 If the project opens , but swiftly closes , you are probably missing one of these!
