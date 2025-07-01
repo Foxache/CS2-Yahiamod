@@ -3,9 +3,9 @@ A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamest
 
 # This mod is **HIGHLY unstable** at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
 
-# This mod is **HIGHLY CPU intensive!** It maxes out my weasly overclocked 6600k. Want to know why? Check the youtube video.
+## This mod is **HIGHLY CPU intensive!** It maxes out my weasly overclocked 6600k. Want to know why? Check the youtube video.
 
-# **The youtube video isnt made yet** , im just lazy and dont want to update it later.
+## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
 
 # SETUP 
 
