@@ -3,10 +3,14 @@ import os
 import random
 import json
 import queue
+import vdf # New - pip install vdf  
+import winreg # New - pip install winreg
 import psutil
 import time
 import threading
 from flask import Flask, request
+
+# add new packages to Readme on GIT
 
 # Set terminal size
 os.system("mode con: cols=178 lines=50")
@@ -57,12 +61,58 @@ for line in lines:
 	
 if enable_debug:
     print("[SERVER DEBUG] Directory Initialistion")
+    
+def get_counter_strike_path():
+    try:
+        csgo_app_id = "730"
+        steam_path = None
 
+        # Try both registry paths
+        for reg_path in [r"SOFTWARE\Valve\Steam", r"SOFTWARE\WOW6432Node\Valve\Steam"]:
+            try:
+                registry_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, reg_path)
+                steam_path = winreg.QueryValueEx(registry_key, "InstallPath")[0]
+                winreg.CloseKey(registry_key)
+                break
+            except FileNotFoundError:
+                continue
+
+        if not steam_path:
+            print("Steam registry key not found.")
+            return None
+
+        print(f"Steam path: {steam_path}")
+        vdf_path = os.path.join(steam_path, "steamapps", "libraryfolders.vdf")
+
+        if not os.path.exists(vdf_path):
+            print(f"libraryfolders.vdf not found at: {vdf_path}")
+            return None
+
+        with open(vdf_path, encoding='utf-8') as f:
+            vdf_data = vdf.load(f)
+
+        libraries = vdf_data.get('libraryfolders', {})
+        for key, library in libraries.items():
+            if isinstance(library, dict) and 'apps' in library:
+                if csgo_app_id in library['apps']:
+                    game_folder = os.path.join(library['path'], 'steamapps', 'common', 'Counter-Strike Global Offensive')
+                    if os.path.exists(game_folder):
+                        return game_folder
+
+        print("CSGO not found in any library.")
+        return None
+
+    except Exception as e:
+        print(f"Error accessing registry or parsing VDF: {e}")
+        return None
+
+
+cs_directory = get_counter_strike_path()
 script_directory = os.path.dirname(os.path.abspath(__file__))
 resources_directory = os.path.join(script_directory, "recourses")
 log_directory = os.path.join(script_directory, "logs")
 log_path = os.path.join(log_directory, "console_log.txt")
-font_path = os.path.join(RESOURCES_DIR, "fonts.conf")
+font_path = os.path.join(resources_directory, "fonts.conf")
 parent_directory = os.path.dirname(script_directory)
 
 sys.stdout = Logger(log_path)
@@ -111,6 +161,7 @@ def game_event():
 if __name__ == "__main__":
     if enable_debug:
         print("[SERVER DEBUG] Starting Flask server on http://127.0.0.1:5000")
+        print(cs_directory)
 
     app.run(host="127.0.0.1", port=5000)
 

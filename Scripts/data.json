@@ -1,18 +1,1 @@
-{
-    "provider": {
-        "name": "Counter-Strike: Global Offensive",
-        "appid": 730,
-        "version": 14103,
-        "steamid": "76561199128394910",
-        "timestamp": 1757879693
-    },
-    "player": {
-        "steamid": "76561199128394910",
-        "name": "mega hesburger",
-        "activity": "menu"
-    },
-    "previously": {
-        "map": true,
-        "round": true
-    }
-}
+{}
