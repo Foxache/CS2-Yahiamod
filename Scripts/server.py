@@ -62,6 +62,7 @@ script_directory = os.path.dirname(os.path.abspath(__file__))
 resources_directory = os.path.join(script_directory, "recourses")
 log_directory = os.path.join(script_directory, "logs")
 log_path = os.path.join(log_directory, "console_log.txt")
+font_path = os.path.join(RESOURCES_DIR, "fonts.conf")
 parent_directory = os.path.dirname(script_directory)
 
 sys.stdout = Logger(log_path)
