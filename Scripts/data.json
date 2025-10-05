@@ -1,1 +1,14 @@
-{}
+{
+    "provider": {
+        "name": "Counter-Strike: Global Offensive",
+        "appid": 730,
+        "version": 14111,
+        "steamid": "76561199128394910",
+        "timestamp": 1759665235
+    },
+    "player": {
+        "steamid": "76561199128394910",
+        "name": "gooby wooby booby dooby",
+        "activity": "menu"
+    }
+}
