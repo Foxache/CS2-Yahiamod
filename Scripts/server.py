@@ -6,8 +6,10 @@ import queue
 import vdf # New - pip install vdf  
 import winreg # New - pip install winreg
 import psutil
+import shutil
 import time
 import threading
+import filecmp
 from flask import Flask, request
 
 # add new packages to Readme on GIT
@@ -62,7 +64,7 @@ for line in lines:
 if enable_debug:
     print("[SERVER DEBUG] Directory Initialistion")
     
-def get_counter_strike_path():
+def get_counter_strike_path(font_path):
     try:
         csgo_app_id = "730"
         steam_path = None
@@ -97,22 +99,42 @@ def get_counter_strike_path():
                 if csgo_app_id in library['apps']:
                     game_folder = os.path.join(library['path'], 'steamapps', 'common', 'Counter-Strike Global Offensive')
                     if os.path.exists(game_folder):
-                        return game_folder
+                        print("Found game!")
+                        fonts_path = os.path.join(game_folder, "game", "csgo", "panorama", "fonts")
+                        print(f"Fonts directory ready at: {fonts_path}\nApplying Comic Sans")
 
-        print("CSGO not found in any library.")
-        return None
+                        for y in range(0, 3):
+                            try:
+                                src_file = font_path[y]
+                                print("Trying to copy from:", src_file)
+                                dest_file = os.path.join(fonts_path, os.path.basename(src_file))
+
+                                if os.path.exists(dest_file):
+                                    # Compare existing file with source
+                                    if filecmp.cmp(src_file, dest_file, shallow=False):
+                                        print(f"Skipped {os.path.basename(src_file)} — already identical")
+                                        continue
+                                    else:
+                                        os.remove(dest_file)
+                                        print(f"Replacing {os.path.basename(src_file)} (different content)")
+
+                                print("To:", dest_file)
+                                shutil.copy2(src_file, dest_file)
+                                print(f"Copied {src_file} -> {dest_file}")
+
+                            except Exception as e:
+                                print(f"Error copying file: {e}")
 
     except Exception as e:
         print(f"Error accessing registry or parsing VDF: {e}")
         return None
 
-
-cs_directory = get_counter_strike_path()
 script_directory = os.path.dirname(os.path.abspath(__file__))
-resources_directory = os.path.join(script_directory, "recourses")
+resources_directory = os.path.join(script_directory, "resources")
 log_directory = os.path.join(script_directory, "logs")
 log_path = os.path.join(log_directory, "console_log.txt")
-font_path = os.path.join(resources_directory, "fonts.conf")
+font_path = [os.path.join(resources_directory, "fonts.conf"), os.path.join(resources_directory, "ComicBD.ttf"), os.path.join(resources_directory, "Comic.ttf")]
+cs_directory = get_counter_strike_path(font_path)
 parent_directory = os.path.dirname(script_directory)
 
 sys.stdout = Logger(log_path)
