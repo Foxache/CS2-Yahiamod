@@ -5,7 +5,7 @@ A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamest
 
 ## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
 
-### This mod may increase lag , it uses CS GSI , a net server.
+### This mod may increase lag , it uses CS GSI which runs over network. I will try my best to minimise this through updates.
 
 # SETUP 
 
