@@ -3,25 +3,28 @@ A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamest
 
 # This mod is **HIGHLY unstable** at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
 
-## This mod is **HIGHLY CPU intensive!** It maxes out my weasly overclocked 6600k. Want to know why? Check the youtube video.
-
 ## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
 
-# SETUP 
+### This mod may increase lag , it uses CS GSI , a net server.
 
-More detail inside the readme. This setup is also availiable as a video on my Youtube Channel DingusDongulus
+# SETUP 
 
 This is a Python only project, so python HAS to be installed.
 You also need PIP for the extra packages , pip can be found on its native website.
 
 Next , you need to install all the Packages that Python needs to run this project:
-1) open a terminal window (search "terminal")
+1) open a terminal window (search "terminal" or "cd")
 2) Paste this command:
 
    py -m pip install tk opencv-python pillow pynput pygame flask pyautogui 
 
    
-If the project opens , but swiftly closes , you are probably missing one of these!
+If the project:
+
+opens , but swiftly closes
+throws an error like "cannot import"
+
+you are probably missing one of these!
 
 Next you need to place the configuration file that Yahiamod uses to communicate with Counter strike.
 Inside the project folder you will find "gamestate_integration_yahamouse" , this is the config file!
@@ -32,15 +35,6 @@ This needs to go into your Counter strike CFG directory. It should look like:
 Place "gamestate_integration_yahamouse.cfg" into this folder. 
 
 *if you have cs:go legacy installed , you might have multiple folders named cfg , try to go for ones closest to this directory.*
-
-Lastly , you need to change you STEAMID in the main.py script.
-This is quite simple , open the main.py with Notepad , and replace the id in line 15 with your Steamid64 
-How do you get your steam id?
-It is this part of your steam profile link:
-
-https://steamcommunity.com/profiles/ *4656121292394910* /
-
-If you havent done this correctly , the code will shout at you to change it.
 
 Thats all for the setup!
 
