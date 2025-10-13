@@ -1,40 +1,55 @@
 # CS2-Yahiamod
 ## A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamestate Intergration
 
-# This mod is **HIGHLY unstable** at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
-
 ## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
 
-### This mod may increase lag , it uses CS GSI which runs over network. I will try my best to minimise this through updates.
+> [!CAUTION]
+> This mod is **HIGHLY unstable** at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
+
+> [!NOTE]
+> This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
 
 # SETUP 
 
-This is a Python only project, so python HAS to be installed.
-You also need PIP for the extra packages , pip can be found on its native website.
+This is a **Python only project**, so python HAS to be installed.
+You also **need PIP for the extra packages** , pip can be found on its native website.
 
-Next , you need to install all the Packages that Python needs to run this project:
+Next , **you need to install all the Packages that Python needs** to run this project:
 1) open a terminal window (search "terminal" or "cd")
 2) Paste this command:
+```
+   py -m pip install tk pillow pynput pygame flask pyautogui winregistry vdf
+```
+<details>
 
-   py -m pip install tk opencv-python pillow pynput pygame flask pyautogui 
+**<summary>Worried this is a malicious command? Click here for an explanation</summary>**
 
-   
-If the project:
+Python packages are libraries for python to use , and are usually built in. yahiamod uses a lot of built in ones but some things are very neiche so need further specific packages. Heres what each one is:
 
-opens , but swiftly closes
-throws an error like "cannot import"
+- tk - Also known as TKinter , this is the library i use to make the overlays and visual effects
+- pillow - Used to pre-load images to improve performance.
+- pygame - A package used to make games in python, handy to play audio with!
+- flask - Used by server.py to listen out for the CS GSI!
+- winregistry - reading windows registries to find where Steam is located.
+- vdf - Used for reading Valve (steam) files.
 
-you are probably missing one of these!
+</details>
+
+> [!IMPORTANT]
+> If the program crashes , it is likely one of these is missing!
 
 Next you need to place the configuration file that Yahiamod uses to communicate with Counter strike.
 Inside the project folder you will find "gamestate_integration_yahamouse" , this is the config file!
 This needs to go into your Counter strike CFG directory. It should look like:
 
+```
 "SteamLibrary\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg"
+```
 
 Place "gamestate_integration_yahamouse.cfg" into this folder. 
 
-*if you have cs:go legacy installed , you might have multiple folders named cfg , try to go for ones closest to this directory.*
+> [!WARNING]
+> if you have cs:go legacy installed , you might have multiple folders named cfg , try to follow this exact path.
 
 Thats all for the setup!
 
@@ -44,7 +59,9 @@ All features here are (mostly) spoiler free. For a deeper look on these features
 
 **That one french tiktoker with that hell of a dumpy** - He kindly reminds you if you need more bullets.
 
-**Mucho Texto** - Anti-spam chat feature *this feature does not just affect CS2
+**Mucho Texto** - Anti-spam chat feature 
+> [!CAUTION]
+> This feature can fire when outside of Counter Strike
 
 **21 kid** - 21 kid helpfully reminds you when you have 9 , 10 or 21 bullets left.
 
