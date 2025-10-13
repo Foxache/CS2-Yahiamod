@@ -96,6 +96,7 @@ def reset_cooldown():
 def process_event_queue(event_queue):
     for item in event_queue:
         asyncio.run(globals()[item]())
+        event_queue.remove(item)
     
 async def kill():
     global on_cooldown
@@ -177,11 +178,12 @@ def process_data_file():
     if not os.path.exists(DATA_FILE):
         return
     with open(DATA_FILE, "r", encoding="utf-8") as f:
+        print("Trying JSON asset")
         try:
             data = json.load(f)
             steamid = data.get("provider", {}).get("steamid", 1) # steam id to ensure the data collected is about the player
             player_steamid = data.get("player", {}).get("steamid", 0)
-
+            print("Checking SteamID")
             if player_steamid == steamid: # Data collection
                 deaths = data.get("player", {}).get("match_stats", {}).get("deaths", 0)
                 kills = data.get("player", {}).get("match_stats", {}).get("kills", 0)
@@ -190,9 +192,13 @@ def process_data_file():
                 t = data.get("map", {}).get("team_t", {}).get("score", 0)
                 flashed = data.get("player", {}).get("state", {}).get("flashed", 0)
                 activity = data.get("player", {}).get("activity", "none")
-
+                
+                print("Got data! Here is the results: deaths", deaths, "kills", kills)
+                print("Here is previous: deaths", last_death, "kills", last_kills)
                 if deaths > last_death:
+                    last_death = deaths
                     event_queue.append("death")
+                    print("Death appended")
                     if random.random() < 0.01:
                         subprocess.run(["start", "steam://run/2379780"], shell=True)
                 
@@ -200,8 +206,10 @@ def process_data_file():
                     event_queue.append("flash")
 
                 if kills > last_kills:
+                    last_kills = kills
                     event_queue.append("kill")
-
+                    print("Death appended")
+                    
                 if ct == 13: # working?
                     if team.upper() == "CT":
                         event_queue.append("win")
@@ -215,8 +223,6 @@ def process_data_file():
                         pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
                 
                 process_event_queue(event_queue)
-                last_death = deaths
-                last_kills = kills
                 
                 if activity == "menu":
                     print("[INFO] Kill count reset.")
@@ -229,6 +235,7 @@ def process_data_file():
 class DataFileHandler(FileSystemEventHandler):
     def on_modified(self, event):
         if event.src_path.endswith("data.json"):
+            print("Watchdog detected change , processing JSON asset")
             process_data_file()
 
 observer = Observer()
