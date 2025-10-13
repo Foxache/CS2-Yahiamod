@@ -130,6 +130,7 @@ def process_data_file():
                 ct = data.get("map", {}).get("team_ct", {}).get("score", 0)
                 t = data.get("map", {}).get("team_t", {}).get("score", 0)
                 flashed = data.get("player", {}).get("state", {}).get("flashed", 0)
+                activity = data.get("player", {}).get("activity", "none")
 
                 if flashed > 0:
                     trigger_kill_event(FLASH_IMAGE_PATH, FLASH_SOUND_PATH)
@@ -162,9 +163,10 @@ def process_data_file():
                     else:
                         pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
 
-                elif deaths == 0 and last_kills != 0:
+                elif activity == "menu":
                     print("[INFO] Kill count reset.")
                     last_kills = 0
+                    
         except json.JSONDecodeError:
             print("[ERROR] Invalid JSON data.")
 
