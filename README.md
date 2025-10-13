@@ -1,5 +1,5 @@
 # CS2-Yahiamod
-A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamestate Intergration
+## A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamestate Intergration
 
 # This mod is **HIGHLY unstable** at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
 
