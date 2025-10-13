@@ -4,7 +4,8 @@
 ## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
 
 > [!CAUTION]
-> This mod is **HIGHLY unstable** at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
+> This mod is unstable at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
+> All releases are stable versions , downloading directly from the current git is a risk you are accepting.
 
 > [!NOTE]
 > This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
