@@ -187,6 +187,7 @@ def process_data_file():
             if player_steamid == steamid: # Data collection
                 deaths = data.get("player", {}).get("match_stats", {}).get("deaths", 0)
                 kills = data.get("player", {}).get("match_stats", {}).get("kills", 0)
+                last_kills = data.get("previously", {}).get("player", {}).get("match_stats", {}.get("kills", 0) # TEST THIS!
                 team = data.get("player", {}).get("team", "NaN")
                 ct = data.get("map", {}).get("team_ct", {}).get("score", 0)
                 t = data.get("map", {}).get("team_t", {}).get("score", 0)
