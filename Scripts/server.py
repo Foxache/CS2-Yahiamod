@@ -17,7 +17,10 @@ from flask import Flask, request
 # Set terminal size
 os.system("mode con: cols=178 lines=50")
 
-class Logger: # So people can acutally send me logs of my shitty code.. wait.. do i want this?
+class Logger: # So people can acutally send me logs of my code.. wait.. do i want this? 
+	# this code isnt working right! It needs to check if there is already a log and not add to it! My current log file is like 2.2b lines long. 
+	# TODO: Date the logs with the time they start: SERVER-LOG_DD/MM/YY_HH:MM
+	# TODO: Output values in a readable manner so we can track values accurately
     def __init__(self, logfile):
         self.terminal = sys.stdout
         self.log = open(logfile, "a", encoding="utf-8")
