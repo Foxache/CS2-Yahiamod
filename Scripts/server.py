@@ -3,8 +3,8 @@ import os
 import random
 import json
 import queue
-import vdf # New - pip install vdf  
-import winreg # New - pip install winreg
+import vdf  
+import winreg
 import psutil
 import shutil
 import time
@@ -12,17 +12,17 @@ import threading
 import filecmp
 from flask import Flask, request
 
-# Set terminal size
 os.system("mode con: cols=178 lines=50")
 
 # Get current time to add to the logs - UNTESTED
+# Does this need to be moved closer to the directories?
+# This whole script probably needs re-organising in order of importance.
 from time import gmtime, strftime
 s = strftime("%a, %d %b %Y %H:%M:%S", 
              gmtime(1627987508.6496193))
 
 class Logger: # So people can acutally send me logs of my code.. wait.. do i want this? 
-	# this code isnt working right! It needs to check if there is already a log and not add to it! My current log file is like 2.2b lines long. 
-	# TODO: Output values in a readable manner so we can track values accurately
+	# TODO: Output values in a readable manner so we can track values accurately - Too much processing power?
     def __init__(self, logfile):
         self.terminal = sys.stdout
         self.log = open(logfile, "w", encoding="utf-8")
@@ -54,7 +54,7 @@ lines = [
     "                         ╚══════╝╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═╝    ╚══════╝╚═╝  ╚═╝╚═╝      ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝"
 ]
 
-total_duration = 0.5
+total_duration = 0.2 # Find the best value for this.
 total_chars = sum(len(line) for line in lines)
 char_delay = total_duration / total_chars
 
