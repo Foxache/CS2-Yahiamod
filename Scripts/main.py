@@ -14,7 +14,6 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(SCRIPT_DIR, "data.json")
 RESOURCES_DIR = os.path.join(SCRIPT_DIR, "resources")
 
-# Paths
 VICTORY_IMAGE_PATH = os.path.join(RESOURCES_DIR, "cinema.png")
 VICTORY_SOUND_PATH = os.path.join(RESOURCES_DIR, "boom.mp3")
 DEFEAT_SOUND_PATH = os.path.join(RESOURCES_DIR, "tf2.mp3")
@@ -45,7 +44,6 @@ root.overrideredirect(True)  # No border/title
 root.attributes("-topmost", True)
 root.attributes("-alpha", 0.0)  # Start invisible
 
-# Screen geometry
 screen_width = root.winfo_screenwidth()
 screen_height = root.winfo_screenheight()
 image_width = 1920
@@ -60,7 +58,6 @@ def preload_image(path):
     pil_img = Image.open(path).convert("RGBA")
     return ImageTk.PhotoImage(pil_img)
 
-# Preload all resources
 preloaded_images[VICTORY_IMAGE_PATH] = preload_image(VICTORY_IMAGE_PATH)
 preloaded_images[FLASH_IMAGE_PATH] = preload_image(FLASH_IMAGE_PATH)
 
@@ -194,3 +191,4 @@ observer_thread = threading.Thread(target=start_observer, daemon=True)
 observer_thread.start()
 
 root.mainloop()
+
