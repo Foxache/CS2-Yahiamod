@@ -89,8 +89,7 @@ label.pack()
 
 root.withdraw() # hides root to prevent preloading from showing any images
 
-def reset_cooldown():
-    global on_cooldown
+def reset_cooldown(on_cooldown): # Test this - Non Global
     on_cooldown = False
 
 def process_event_queue(event_queue):
@@ -98,8 +97,7 @@ def process_event_queue(event_queue):
         asyncio.run(globals()[item]())
         event_queue.remove(item)
     
-async def kill():
-    global on_cooldown
+async def kill(on_cooldown): # Test this - Non global
     while on_cooldown:
         await asyncio.sleep(0.5)
     selected = random.choice(KILL_PATHS)
@@ -108,10 +106,9 @@ async def kill():
     img_obj = preloaded_images[img]
     show_overlay(img_obj, snd)
     on_cooldown = True
-    threading.Timer(3.0, reset_cooldown).start()
+    threading.Timer(3.0, reset_cooldown(on_cooldown)).start()
 
-async def flash():
-    global on_cooldown
+async def flash(on_cooldown): # Test this - Non global
     while on_cooldown:
         await asyncio.sleep(0.5)
     img_obj = preloaded_images[FLASH_IMAGE_PATH]
@@ -120,8 +117,7 @@ async def flash():
     on_cooldown = True
     threading.Timer(3.0, reset_cooldown).start()
 
-async def death():
-    global on_cooldown
+async def death(on_cooldown): # Test this - Non global
     while on_cooldown:
         await asyncio.sleep(0.5)
     selected = random.choice(DEATH_PATHS)
@@ -137,8 +133,7 @@ async def death():
     on_cooldown = True
     threading.Timer(3.0, reset_cooldown).start()
 
-async def win():
-    global on_cooldown
+async def win(on_cooldown): # Test this - Non global
     while on_cooldown:
         await asyncio.sleep(0.5)
     img_obj = preloaded_images[VICTORY_IMAGE_PATH]
@@ -173,8 +168,7 @@ def show_overlay(image_obj, sound_path):
     fade_in()
 
 # Processing data file , just making event queue
-def process_data_file():
-    global last_death, last_kills, event_queue
+def process_data_file(last_death, last_kills, event_queue): # Test these values - Non Global 
     if not os.path.exists(DATA_FILE):
         return
     with open(DATA_FILE, "r", encoding="utf-8") as f:
