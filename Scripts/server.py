@@ -12,18 +12,20 @@ import threading
 import filecmp
 from flask import Flask, request
 
-# add new packages to Readme on GIT
-
 # Set terminal size
 os.system("mode con: cols=178 lines=50")
 
+# Get current time to add to the logs - UNTESTED
+from time import gmtime, strftime
+s = strftime("%a, %d %b %Y %H:%M:%S", 
+             gmtime(1627987508.6496193))
+
 class Logger: # So people can acutally send me logs of my code.. wait.. do i want this? 
 	# this code isnt working right! It needs to check if there is already a log and not add to it! My current log file is like 2.2b lines long. 
-	# TODO: Date the logs with the time they start: SERVER-LOG_DD/MM/YY_HH:MM
 	# TODO: Output values in a readable manner so we can track values accurately
     def __init__(self, logfile):
         self.terminal = sys.stdout
-        self.log = open(logfile, "a", encoding="utf-8")
+        self.log = open(logfile, "w", encoding="utf-8")
 
     def write(self, message):
         self.terminal.write(message)
@@ -135,7 +137,7 @@ def get_counter_strike_path(font_path):
 script_directory = os.path.dirname(os.path.abspath(__file__))
 resources_directory = os.path.join(script_directory, "resources")
 log_directory = os.path.join(script_directory, "logs")
-log_path = os.path.join(log_directory, "console_log.txt")
+log_path = os.path.join(log_directory, "server_log_" + s + ".txt") # Untested
 font_path = [os.path.join(resources_directory, "fonts.conf"), os.path.join(resources_directory, "ComicBD.ttf"), os.path.join(resources_directory, "Comic.ttf")]
 cs_directory = get_counter_strike_path(font_path)
 parent_directory = os.path.dirname(script_directory)
