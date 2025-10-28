@@ -45,8 +45,6 @@ DEATH_PATHS = [
 ]
 
 # defining used variables
-last_kills = 0
-last_death = 0
 on_cooldown = False
 event_queue = []
 
@@ -168,7 +166,7 @@ def show_overlay(image_obj, sound_path):
     fade_in()
 
 # Processing data file , just making event queue
-def process_data_file(last_death, last_kills, event_queue): # Test these values - Non Global 
+def process_data_file(event_queue): # Test these values - Non Global 
     if not os.path.exists(DATA_FILE):
         return
     with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -179,9 +177,10 @@ def process_data_file(last_death, last_kills, event_queue): # Test these values 
             player_steamid = data.get("player", {}).get("steamid", 0)
             print("Checking SteamID")
             if player_steamid == steamid: # Data collection
-                deaths = data.get("player", {}).get("match_stats", {}).get("deaths", 0)
-                kills = data.get("player", {}).get("match_stats", {}).get("kills", 0)
-                last_kills = data.get("previously", {}).get("player", {}).get("match_stats", {}.get("kills", 0) # TEST THIS!
+                deaths = data.get("previously", {}).get("player", {}).get("match_stats", {}).get("deaths", 0)
+                kills = data.get("previously", {}).get("player", {}).get("match_stats", {}).get("kills", 0)
+                last_kills = data.get("previously", {}).get("player", {}).get("match_stats", {}).get("kills", 0) # TEST THE PREVIOUS!
+                last_flash = data.get("previously", {}).get("player", {}).get("state", {}).get("flashed", 0)
                 team = data.get("player", {}).get("team", "NaN")
                 ct = data.get("map", {}).get("team_ct", {}).get("score", 0)
                 t = data.get("map", {}).get("team_t", {}).get("score", 0)
@@ -197,7 +196,7 @@ def process_data_file(last_death, last_kills, event_queue): # Test these values 
                     if random.random() < 0.01:
                         subprocess.run(["start", "steam://run/2379780"], shell=True)
                 
-                if flashed > 0:
+                if flashed > 0 and last_flash == 0:
                     event_queue.append("flash")
 
                 if kills > last_kills:

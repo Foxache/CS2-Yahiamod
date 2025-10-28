@@ -10,6 +10,9 @@ import shutil
 import time
 import threading
 import filecmp
+from datetime import datetime
+import logging
+from logging.handlers import RotatingFileHandler
 from flask import Flask, request
 
 os.system("mode con: cols=178 lines=50")
@@ -18,22 +21,7 @@ os.system("mode con: cols=178 lines=50")
 # Does this need to be moved closer to the directories?
 # This whole script probably needs re-organising in order of importance.
 from time import gmtime, strftime
-s = strftime("%a, %d %b %Y %H:%M:%S", 
-             gmtime(1627987508.6496193))
-
-class Logger: # So people can acutally send me logs of my code.. wait.. do i want this? 
-	# TODO: Output values in a readable manner so we can track values accurately - Too much processing power?
-    def __init__(self, logfile):
-        self.terminal = sys.stdout
-        self.log = open(logfile, "w", encoding="utf-8")
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        self.terminal.flush()
-        self.log.flush()
+s = strftime("%a, %d %b %Y %H:%M:%S", gmtime())
 
 enable_debug = True  
 
@@ -142,11 +130,19 @@ font_path = [os.path.join(resources_directory, "fonts.conf"), os.path.join(resou
 cs_directory = get_counter_strike_path(font_path)
 parent_directory = os.path.dirname(script_directory)
 
-sys.stdout = Logger(log_path)
-sys.stderr = sys.stdout 
+timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+log_path = os.path.join(log_directory, f"server_{timestamp}.log")
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG if enable_debug else logging.INFO)
+
+handler = RotatingFileHandler(log_path, maxBytes=5 * 1024 * 1024, backupCount=5)
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 if enable_debug:
-    print("[SERVER DEBUG] Clearing ealier JSON , if it exists")  
+    logger.debug("Clearing earlier JSON, if it exists")
 
 json_asset = os.path.join(script_directory, "data.json")
 with open(json_asset, "w", encoding="utf-8") as f:
@@ -155,17 +151,17 @@ with open(json_asset, "w", encoding="utf-8") as f:
 important_video_path = os.path.join(resources_directory, "importantvideo.ogv")
 important_video_rng = random.randint(0, 50)
 if enable_debug:
-    print("[SERVER DEBUG] Important Video chance:", important_video_rng)
+    logger.debug("Important Video chance: %d / 50", important_video_rng)
 if random.random() < 0.02:
     os.startfile(important_video_path)
 
 if enable_debug:
-    print("[SERVER DEBUG] Flask name")
+    logger.debug("Flask name")
 app = Flask(__name__)
 event_queue = queue.Queue() 
 
 if enable_debug:
-    print("[SERVER DEBUG] Process queue")
+    logger.debug("Process queue")
 def process_queue():
     while not event_queue.empty():
         try:
@@ -175,20 +171,20 @@ def process_queue():
     root.after(5, process_queue)  # Reduce delay for faster processing
     
 if enable_debug:
-    print("[SERVER DEBUG] Game Event")
+    logger.debug("Game Event")
 @app.route("/", methods=["POST"])
 def game_event():
     data = request.json
     data_path = os.path.join(script_directory, "data.json")
     with open(data_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
-    print("[SERVER DEBUG] Received:", data.get("player", {}).get("activity", "unknown"))
+    logger.debug("Received: %s", data.get("player", {}).get("activity", "unknown"))
     return "Counter Strike Response", 200
 
 if __name__ == "__main__":
     if enable_debug:
-        print("[SERVER DEBUG] Starting Flask server on http://127.0.0.1:5000")
-        print(cs_directory)
+        logger.debug("Starting Flask server on http://127.0.0.1:5000")
+        logger.debug(cs_directory)
 
     app.run(host="127.0.0.1", port=5000)
 
