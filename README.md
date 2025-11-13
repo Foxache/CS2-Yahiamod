@@ -9,6 +9,7 @@
 
 > [!NOTE]
 > This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
+> Additionally , the Server py i use to gather data from the CS app uses a decent chunk of the CPU. Sorry.
 
 # SETUP 
 
