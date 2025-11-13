@@ -40,6 +40,10 @@ Python packages are libraries for python to use , and are usually built in. yahi
 > [!IMPORTANT]
 > If the program crashes , it is likely one of these is missing!
 
+
+> [!NOTE]
+> This is automated with the latest experimental release.
+
 Next you need to place the configuration file that Yahiamod uses to communicate with Counter strike.
 Inside the project folder you will find "gamestate_integration_yahamouse" , this is the config file!
 This needs to go into your Counter strike CFG directory. It should look like:
