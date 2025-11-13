@@ -4,6 +4,7 @@ import asyncio
 import time
 import threading
 import random
+import ctypes # Click through
 import pygame
 import tkinter as tk
 from watchdog.observers import Observer
@@ -19,6 +20,8 @@ import subprocess
     # order of importance dictated by index 
     # index determined by order of the code , highest priority added first.
     # will always be done chronologically 
+
+# TEST CLICK THROUGH!
 
 # Paths
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -54,6 +57,16 @@ root = tk.Tk()
 root.overrideredirect(True)  # No border/title
 root.attributes("-topmost", True) # Keeps priority
 root.attributes("-alpha", 0.0)  # Start invisible
+
+# Experimental:
+GWL_EXSTYLE = -20
+WS_EX_LAYERED = 0x80000
+WS_EX_TRANSPARENT = 0x20
+root.update_idletasks()          # ensure window exists
+hwnd = root.winfo_id()          # HWND for the Tk window
+old_style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+new_style = old_style | WS_EX_LAYERED | WS_EX_TRANSPARENT
+ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, new_style)
 
 # Screen geometry
 screen_width = root.winfo_screenwidth()
@@ -143,7 +156,6 @@ def show_overlay(image_obj, sound_path):
     root.deiconify()
     root.lift()
     label.config(image=image_obj)
-    root.overrideredirect(True) # prevent closing / May reconsider 
     label.image = image_obj
 
     pygame.mixer.Sound(sound_path).play()
