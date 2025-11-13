@@ -143,6 +143,7 @@ def show_overlay(image_obj, sound_path):
     root.deiconify()
     root.lift()
     label.config(image=image_obj)
+    root.overrideredirect(True) # prevent closing / May reconsider 
     label.image = image_obj
 
     pygame.mixer.Sound(sound_path).play()
