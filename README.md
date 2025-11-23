@@ -16,6 +16,9 @@
 This is a **Python only project**, so python HAS to be installed.
 You also **need PIP for the extra packages** , pip can be found on its native website.
 
+> [!NOTE]
+> This mod requires python 3.12
+
 Next , **you need to install all the Packages that Python needs** to run this project:
 1) open a terminal window (search "terminal" or "cd")
 2) Paste this command:
