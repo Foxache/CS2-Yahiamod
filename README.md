@@ -19,7 +19,7 @@ Next , **you need to install all the Packages that Python needs** to run this pr
 1) open a terminal window (search "terminal" or "cd")
 2) Paste this command:
 ```
-   py -m pip install tk pillow pynput pygame-ce flask pyautogui winregistry vdf logging
+   py -m pip install tk pillow pynput playsound flask pyautogui winregistry vdf logging
 ```
 <details>
 
