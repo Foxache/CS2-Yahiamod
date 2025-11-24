@@ -245,7 +245,7 @@ class DataFileHandler(FileSystemEventHandler):
         if event.src_path.endswith("data.json"):
             print("Watchdog detected change , processing JSON asset")
             if working == False:
-                process_data_file(event_queue) # TEST THIS!
+                process_data_file(event_queue) # Maybe use Asyncio Create Task?
 
 observer = Observer()
 observer.schedule(DataFileHandler(), path=SCRIPT_DIR, recursive=False)
