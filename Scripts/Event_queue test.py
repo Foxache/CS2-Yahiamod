@@ -161,23 +161,21 @@ def show_overlay(image_obj, sound_path):
 
     pygame.mixer.Sound(sound_path).play()
 
-    def fade_in(alpha=0.0):
-        if alpha < 1.0:
-            root.attributes("-alpha", alpha)
-            root.after(10, fade_in, alpha + 0.05)
-        else:
-            root.attributes("-alpha", 1.0)
-            root.after(2500, fade_out, 1.0)
+def fade_in(alpha=0.0):
+    if alpha < 1.0:
+        root.attributes("-alpha", alpha)
+        root.after(10, fade_in, alpha + 0.05)
+    else:
+        root.attributes("-alpha", 1.0)
+        root.after(2500, fade_out, 1.0)
 
-    def fade_out(alpha):
-        if alpha > 0:
-            root.attributes("-alpha", alpha)
-            root.after(10, fade_out, alpha - 0.05)
-        else:
-            root.attributes("-alpha", 0.0)
-            root.withdraw()  
-
-    fade_in()
+def fade_out(alpha):
+    if alpha > 0:
+        root.attributes("-alpha", alpha)
+        root.after(10, fade_out, alpha - 0.05)
+    else:
+        root.attributes("-alpha", 0.0)
+        root.withdraw()  
 
 # Processing data file , just making event queue
 def process_data_file(event_queue): # Test these values - Non Global 
