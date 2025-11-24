@@ -50,6 +50,7 @@ DEATH_PATHS = [
 # defining used variables
 on_cooldown = False
 event_queue = []
+working = False
 
 pygame.mixer.init()
 
@@ -103,7 +104,7 @@ root.withdraw() # hides root to prevent preloading from showing any images
 def reset_cooldown(on_cooldown): # Test this - Non Global
     on_cooldown = False
 
-def process_event_queue(event_queue):
+def process_event_queue(event_queue): # this needs to be revamped to await finishing the events in the queue to finish processing- do on updated version locally - why didnt it push?
     for item in event_queue:
         asyncio.run(globals()[item]())
         event_queue.remove(item)
@@ -180,11 +181,13 @@ def show_overlay(image_obj, sound_path):
 
 # Processing data file , just making event queue
 def process_data_file(event_queue): # Test these values - Non Global 
+    global working
     if not os.path.exists(DATA_FILE):
         return
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         print("Trying JSON asset")
         try:
+            working = True
             data = json.load(f)
             steamid = data.get("provider", {}).get("steamid", 1) # steam id to ensure the data collected is about the player
             player_steamid = data.get("player", {}).get("steamid", 0)
@@ -243,7 +246,8 @@ class DataFileHandler(FileSystemEventHandler):
     def on_modified(self, event):
         if event.src_path.endswith("data.json"):
             print("Watchdog detected change , processing JSON asset")
-            process_data_file()
+            if working == False:
+                process_data_file(event_queue) # TEST THIS!
 
 observer = Observer()
 observer.schedule(DataFileHandler(), path=SCRIPT_DIR, recursive=False)
@@ -252,7 +256,7 @@ def start_observer():
     observer.start()
     try:
         while True:
-            time.sleep(1)
+            time.sleep(1) # this needs to be revamped to await for the finished processing of process_data(event_queue)
     except KeyboardInterrupt:
         print("[EXIT] Manual interrupt received.")
     finally:
