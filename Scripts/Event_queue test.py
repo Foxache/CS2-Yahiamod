@@ -185,7 +185,10 @@ def process_data_file(event_queue): # Test these values - Non Global
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         print("Trying JSON asset")
         try:
-            working = True
+            working = True # remove this when testing Async
+
+            # Take time here
+            
             data = json.load(f)
             steamid = data.get("provider", {}).get("steamid", 1) # steam id to ensure the data collected is about the player
             player_steamid = data.get("player", {}).get("steamid", 0)
@@ -231,6 +234,8 @@ def process_data_file(event_queue): # Test these values - Non Global
                         pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
                 
                 process_event_queue(event_queue)
+                # take time again
+                # Calculate time taken , print to log
                 
                 if activity == "menu":
                     print("[INFO] Kill count reset.")
