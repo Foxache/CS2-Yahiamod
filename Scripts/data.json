@@ -4,11 +4,64 @@
         "appid": 730,
         "version": 14126,
         "steamid": "76561199128394910",
-        "timestamp": 1763938374
+        "timestamp": 1764967777
     },
     "player": {
         "steamid": "76561199128394910",
-        "name": "Ash",
+        "name": "Dingus! <3",
         "activity": "menu"
+    },
+    "previously": {
+        "map": true,
+        "round": true,
+        "player": {
+            "observer_slot": 13,
+            "team": "T",
+            "state": {
+                "health": 100,
+                "armor": 100,
+                "helmet": true,
+                "flashed": 0,
+                "smoked": 0,
+                "burning": 0,
+                "money": 0,
+                "round_kills": 0,
+                "round_killhs": 0,
+                "equip_value": 6800
+            },
+            "weapons": {
+                "weapon_0": {
+                    "name": "weapon_knife_t",
+                    "paintkit": "default",
+                    "type": "Knife",
+                    "state": "holstered"
+                },
+                "weapon_1": {
+                    "name": "weapon_m249",
+                    "paintkit": "hyo_jungle_desat",
+                    "type": "Machine Gun",
+                    "ammo_clip": 100,
+                    "ammo_clip_max": 100,
+                    "ammo_reserve": 200,
+                    "state": "active"
+                },
+                "weapon_2": {
+                    "name": "weapon_revolver",
+                    "paintkit": "gs_r8_banana",
+                    "type": "Pistol",
+                    "ammo_clip": 8,
+                    "ammo_clip_max": 8,
+                    "ammo_reserve": 8,
+                    "state": "holstered"
+                }
+            },
+            "match_stats": {
+                "kills": 3,
+                "assists": 0,
+                "deaths": 12,
+                "mvps": 0,
+                "score": 34
+            }
+        }
     }
 }

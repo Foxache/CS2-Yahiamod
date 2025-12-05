@@ -1,0 +1,13 @@
+Affirmations must be typed out every 5 deaths
+- Idk how to stop players from playing while this is active but surely i can figure that out
+- use tkinter txt boxes?
+
+When going from a menu activity to a new match play the family guy intro sound 
+
+Markiplier reaction
+
+menu > 5 mins = Washee Washee
+
+bullets
+
+lava chicken
