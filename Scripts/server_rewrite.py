@@ -510,5 +510,6 @@ if __name__ == "__main__":
     print("\n\n If you see an orange 'ctrl+c' to quit, Yahiamod is running properly! \n\n")
     server_thread = Thread(target=run_server, daemon=True)
     server_thread.start()
+    os.system('cls') # hide the Flask warning that isnt relevent as we are a Niche use case - UNTESTED
     process_ui_events()
     root.mainloop()
