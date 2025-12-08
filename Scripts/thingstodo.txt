@@ -1,3 +1,5 @@
+HARDMODE
+
 Affirmations must be typed out every 5 deaths
 - Idk how to stop players from playing while this is active but surely i can figure that out
 - use tkinter txt boxes?
