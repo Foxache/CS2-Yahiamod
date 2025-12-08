@@ -6,9 +6,11 @@ Affirmations must be typed out every 5 deaths
 
 When going from a menu activity to a new match play the family guy intro sound 
 
-Markiplier reaction
+Markiplier reaction - Seperate file?
 
 menu > 5 mins = Washee Washee
+  - doesnt stay... A way to make a new permenant root? open a new script?
+
 
 bullets
 
