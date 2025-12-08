@@ -21,7 +21,7 @@ from tkinter import messagebox
 
 confirmation = messagebox.askyesno(
     "Yahiamod Confirmation",
-    "Do you want to enable Hardmode?"
+    "Do you want to enable Hardmode?\nThis may have unforeseen consequences..."
 )
 
 for y in range(1, random.randint(8,20)):
