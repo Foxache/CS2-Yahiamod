@@ -495,12 +495,12 @@ def process_ui_events():
             elif event == "win":
                 win()
             elif event == "stake":
-                win()
+                stake()
             elif event == "assist":
-                stake()
+                assist()
             elif event == "horse":
-                stake()
-
+                horse()
+    # no wonder the flippin things werent firing i forgot to add them to the process -w-
     except queue.Empty:
         pass
 
