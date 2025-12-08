@@ -15,3 +15,7 @@ menu > 5 mins = Washee Washee
 bullets
 
 lava chicken
+data.get (fire damage)
+
+if firedamage and not lava_Flag:
+	ui_queue.put(("lava", None))
