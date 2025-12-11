@@ -1,0 +1,8 @@
+tk
+pyautogui
+pillow
+pygame
+flask
+winregistry
+vdf
+logging
