@@ -435,6 +435,7 @@ def game_event():
         t = data.get("map", {}).get("team_t", {}).get("score", 0)
         team = data.get("player", {}).get("team", "")
 
+        # These need to be Re-assigned to detect which game type is currently running
         if ct == 13:
             if team.upper() == "CT":
                 ui_queue.put(("win", None))
@@ -500,6 +501,7 @@ def process_ui_events():
                 assist()
             elif event == "horse":
                 horse()
+                
     # no wonder the flippin things werent firing i forgot to add them to the process -w-
     except queue.Empty:
         pass
