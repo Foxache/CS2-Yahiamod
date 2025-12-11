@@ -198,6 +198,7 @@ cs_directory = get_counter_strike_path(FONT_PATH)
 parent_directory = os.path.dirname(SCRIPT_DIR)
 last_data = ""
 ui_queue = queue.Queue()
+death_Counter = 0
 
 if debug:
     print("[Init] Setting up tkinter window...")
@@ -392,7 +393,7 @@ if debug:
     print("[SRV]Game Event")
 @app.route("/", methods=["POST"])
 def game_event():
-    global last_data
+    global last_data, deathcounter
     data = request.json
     data_path = os.path.join(SCRIPT_DIR, "data.json")
     with open(data_path, "w", encoding="utf-8") as f:
@@ -415,11 +416,16 @@ def game_event():
 
         if deaths > last_deaths:
             ui_queue.put(("death", None))
+            death_Counter += 1
 
+        if death_Counter == 5:
+            # Washee Washee logic (just open a seperate file i havent got the git push yet
+        
         kills = data.get("player", {}).get("match_stats", {}).get("kills", 0)
         last_kills = last_data.get("player", {}).get("match_stats", {}).get("kills", 0)
         if kills > last_kills:
             ui_queue.put(("kill", None))#
+            death_Counter = 1
         
         assists = data.get("player", {}).get("match_stats", {}).get("assists", 0)
         last_assists = last_data.get("player", {}).get("match_stats", {}).get("assists", 0)
