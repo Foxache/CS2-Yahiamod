@@ -1,5 +1,3 @@
-HARDMODE
-
 Affirmations must be typed out every 5 deaths
 - Idk how to stop players from playing while this is active but surely i can figure that out
 - use tkinter txt boxes?
@@ -8,14 +6,4 @@ When going from a menu activity to a new match play the family guy intro sound
 
 Markiplier reaction - Seperate file?
 
-menu > 5 mins = Washee Washee
-  - doesnt stay... A way to make a new permenant root? open a new script?
-
-
 bullets
-
-lava chicken
-data.get (fire damage)
-
-if firedamage and not lava_Flag:
-	ui_queue.put(("lava", None))
