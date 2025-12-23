@@ -259,6 +259,7 @@ cs_directory = get_counter_strike_path(FONT_PATH)
 parent_directory = os.path.dirname(SCRIPT_DIR)
 last_data = ""
 ui_queue = queue.Queue()
+death_Counter = 0
 
 if debug:
     print("[Init] Setting up tkinter window...")
@@ -455,7 +456,7 @@ if debug:
     print("[SRV]Game Event")
 @app.route("/", methods=["POST"])
 def game_event():
-    global last_data, menu_timing_flag, washee_opened, start_time, activity, confirmation, game_folder
+    global last_data, deathcounter
     data = request.json
     data_path = os.path.join(SCRIPT_DIR, "data.json")
     with open(data_path, "w", encoding="utf-8") as f:
@@ -480,11 +481,17 @@ def game_event():
 
         if deaths > last_deaths:
             ui_queue.put(("death", None))
+            death_Counter += 1
 
+        if death_Counter == 5:
+            # Washee Washee logic (just open a seperate file i havent got the git push yet
+            print("Placeholder W")
+        
         kills = data.get("player", {}).get("match_stats", {}).get("kills", 0)
         last_kills = last_data.get("player", {}).get("match_stats", {}).get("kills", 0)
         if kills > last_kills:
             ui_queue.put(("kill", None))#
+            death_Counter = 1
         
         assists = data.get("player", {}).get("match_stats", {}).get("assists", 0)
         last_assists = last_data.get("player", {}).get("match_stats", {}).get("assists", 0)
@@ -508,6 +515,7 @@ def game_event():
         t = data.get("map", {}).get("team_t", {}).get("score", 0)
         team = data.get("player", {}).get("team", "")
 
+        # These need to be Re-assigned to detect which game type is currently running
         if ct == 13:
             if team.upper() == "CT":
                 ui_queue.put(("win", None))
@@ -624,6 +632,7 @@ def process_ui_events():
                 assist()
             elif event == "horse":
                 horse()
+                
     # no wonder the flippin things werent firing i forgot to add them to the process -w-
     except queue.Empty:
         pass
