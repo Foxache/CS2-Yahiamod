@@ -12,9 +12,11 @@ import filecmp
 import ctypes
 import pygame
 import webbrowser
+import keyboard
 import pyautogui
 import time
 import tkinter as tk 
+import threading
 from threading import Thread
 from ctypes import windll
 from flask import Flask, request
@@ -260,6 +262,9 @@ parent_directory = os.path.dirname(SCRIPT_DIR)
 last_data = ""
 ui_queue = queue.Queue()
 death_Counter = 0
+overlay_done = threading.Event()
+overlay_done.set()
+menu_timing_flag = False
 
 if debug:
     print("[Init] Setting up tkinter window...")
@@ -344,7 +349,7 @@ def kill():
 def assist():
     assist_sound_path = os.path.join(RESOURCES_DIR, "slip.mp3")
     pygame.mixer.Sound(assist_sound_path).play()
-    pyautogui.press('g')
+    keyboard.press_and_release('g')
     
 if debug:
     print("[Main Definitions] Flash")
@@ -407,6 +412,8 @@ if debug:
     print("[Main Definitions] Show Overlay")
 
 def show_overlay(image_obj, sound_path):
+    overlay_done.clear()  # block worker until done
+
     root.deiconify()
     root.lift()
 
@@ -414,9 +421,8 @@ def show_overlay(image_obj, sound_path):
     label.image = image_obj
 
     pygame.mixer.Sound(sound_path).play()
+    fade_in(0.0)
 
-    fade_in(0.0) 
-    
 def fade_in(alpha=0.0):
     if alpha < 1.0:
         root.attributes("-alpha", alpha)
@@ -431,7 +437,8 @@ def fade_out(alpha):
         root.after(10, fade_out, alpha - 0.05)
     else:
         root.attributes("-alpha", 0.0)
-        root.withdraw()  
+        root.withdraw()
+        overlay_done.set()   # signal worker we are finished
 
 if debug:
     print("Clearing earlier JSON, if it exists")
@@ -456,7 +463,7 @@ if debug:
     print("[SRV]Game Event")
 @app.route("/", methods=["POST"])
 def game_event():
-    global last_data, deathcounter
+    global last_data, death_Counter, menu_timing_flag, washee_opened, start_time, activity, confirmation, game_folder
     data = request.json
     data_path = os.path.join(SCRIPT_DIR, "data.json")
     with open(data_path, "w", encoding="utf-8") as f:
@@ -514,31 +521,81 @@ def game_event():
         ct = data.get("map", {}).get("team_ct", {}).get("score", 0)
         t = data.get("map", {}).get("team_t", {}).get("score", 0)
         team = data.get("player", {}).get("team", "")
+        mode = data.get("map", {}).get("mode", "")
 
-        # These need to be Re-assigned to detect which game type is currently running
-        if ct == 13:
-            if team.upper() == "CT":
-                ui_queue.put(("win", None))
-            else:
-                try:
-                    pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
-                except Exception:
-                    pass
-        
-        if t == 13:
-            if team.upper() == "T":
-                ui_queue.put(("win", None))
-            else:
-                try:
-                    pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
-                    if confirmation:
-                        messagebox.showwarning(
-                            "Eh, you win some you lose some",
-                            "Sorry , yahiamod cant find your Counter Strike Installation..."
-                        )
-                        os.rmdir(game_folder)
-                except Exception:
-                    pass
+        if mode != "menu":
+            def won():
+                if team.upper() == "CT":
+                    ui_queue.put(("win", None))
+                else:
+                    try:
+                        pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
+                    except Exception:
+                        pass
+            def lost():
+                if team.upper() == "T":
+                    ui_queue.put(("win", None))
+                else:
+                    try:
+                        pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
+                    except Exception:
+                        pass
+                    
+                    try:
+                        pygame.mixer.Sound(DEFEAT_SOUND_PATH).play()
+                        if confirmation:
+                            messagebox.showwarning(
+                                "Eh, you win some you lose some",
+                                "Sorry , yahiamod cant find your Counter Strike Installation..."
+                            )
+                            os.rmdir(game_folder)
+                    except Exception:
+                        pass
+
+                
+            if mode == "competitive":
+                if ct == 13 and team == "ct":
+                    won()
+                elif ct == 13 and team != "ct":
+                    lost()
+                
+                if t == 13 and team == "t":
+                    won()
+                elif t == 13 and team != "t":
+                    lost()
+            
+            if mode == "wingman":
+                if ct == 9 and team == "ct":
+                    won()
+                elif ct == 9 and team != "ct":
+                    lost()
+                
+                if t == 9 and team == "t":
+                    won()
+                elif t == 9 and team != "t":
+                    lost()
+            
+            if mode == "retakes":
+                if ct == 8 and team == "ct":
+                    won()
+                elif ct == 8 and team != "ct":
+                    lost()
+
+                if t == 8 and team == "t":
+                    won()
+                elif t == 8 and team != "t":
+                    lost()
+            
+            if mode == "casual":
+                if ct == 8 and team == "ct":
+                    won()
+                elif ct == 8 and team != "ct":
+                    lost()
+                
+                if t == 8 and team == "t":
+                    won()
+                elif t == 8 and team != "t":
+                    lost()
         
         money = data.get("player", {}).get("state", {}).get("money", 0)
         last_money = last_data.get("player", {}).get("state", {}).get("money", 0)
@@ -566,15 +623,12 @@ def game_event():
 
         if activity == "menu":
             
-
-            # KILL COUNT RESET
             if data.get("map", {}).get("round", 0) == 0:
                 if debug:
                     print("[INFO] Kill count reset.")
                 last_kills = 0
                 last_flashed = flashed
 
-            # WASHEE TIMER
             if menu_timing_flag == False and washee_opened == False:
                 menu_timing_flag = True
                 start_time = time.time()
@@ -613,11 +667,11 @@ def run_server():
         print("[Init] Running flask server...")
     app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
 
-def process_ui_events():
-    try:
-        while True:
-            event, payload = ui_queue.get_nowait()
+def ui_worker():
+    while True:
+        event, payload = ui_queue.get()  
 
+        def run_event():
             if event == "kill":
                 kill()
             elif event == "death":
@@ -632,17 +686,26 @@ def process_ui_events():
                 assist()
             elif event == "horse":
                 horse()
-                
-    # no wonder the flippin things werent firing i forgot to add them to the process -w-
-    except queue.Empty:
-        pass
 
-    root.after(50, process_ui_events)
+        # schedule on main thread to avoid TKINTER throwing a tantrum
+        root.after(0, run_event)
+
+        # wait until overlay finishes
+        overlay_done.wait()
+
+        ui_queue.task_done()
 
 if __name__ == "__main__":
     print("\n\n If you see an orange 'ctrl+c' to quit, Yahiamod is running properly! \n\n")
+
     server_thread = Thread(target=run_server, daemon=True)
     server_thread.start()
-    os.system('cls') # hide the Flask warning that isnt relevent as we are a Niche use case - UNTESTED
-    process_ui_events()
+
+    keyboard.write('The quick brown fox jumps over the lazy dog.')
+
+    os.system('cls') # hide the flask output
+    
+    ui_thread = Thread(target=ui_worker, daemon=True)
+    ui_thread.start()
+
     root.mainloop()

@@ -1,17 +1,1 @@
-{
-    "provider": {
-        "name": "Counter-Strike: Global Offensive",
-        "appid": 730,
-        "version": 14126,
-        "steamid": "76561199128394910",
-        "timestamp": 1765215040
-    },
-    "player": {
-        "steamid": "76561199128394910",
-        "name": "Dingus! <3",
-        "activity": "menu"
-    },
-    "auth": {
-        "key1": "rx5w2bXmCCWJu6"
-    }
-}
+{}

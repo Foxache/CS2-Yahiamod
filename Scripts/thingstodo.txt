@@ -10,3 +10,7 @@ Make a pip install instruction with Req.txt
 Markiplier reaction - Seperate file? Yes. Washee Washee works as a file seperate.
 
 bullets - Simple fiX
+
+add 8 4 somehow
+
+Add duration and chance.
