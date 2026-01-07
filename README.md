@@ -4,14 +4,17 @@
 ## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
 
 > [!CAUTION]
-> This mod is unstable at this point in time , and as such is in a "beta" phase as i add features and try to make the experience better.
+> This mod is not finished at this point in time , and as such is in a "beta" phase as I add features and try to make the experience better.
 > All releases are stable versions , downloading directly from the current git is a risk you are accepting.
 
 > [!NOTE]
 > This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
-> Additionally , the Server py i use to gather data from the CS app uses a decent chunk of the CPU. Sorry.
 
-# SETUP 
+# Manual installation SETUP 
+
+> [!IMPORTANT]
+> This section is irrelevant with V2.4.0 as it is automated
+> All you need to do with the latest versions is run Yahiamod with Python.
 
 This is a **Python only project**, so python HAS to be installed.
 You also **need PIP for the extra packages** , pip can be found on its native website.
@@ -45,7 +48,7 @@ Python packages are libraries for python to use , and are usually built in. yahi
 
 
 > [!NOTE]
-> This next step is automated with the latest experimental release.
+> This next step is automated with the latest release.
 
 Next you need to place the configuration file that Yahiamod uses to communicate with Counter strike.
 Inside the project folder you will find "gamestate_integration_yahamouse" , this is the config file!
