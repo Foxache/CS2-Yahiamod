@@ -9,4 +9,6 @@ Make a pip install instruction with Req.txt
 
 Markiplier reaction - Seperate file? Yes. Washee Washee works as a file seperate.
 
-bullets - Simple fiX
+bullets - Simple fix
+
+fix Family Guy Cutaway - Don't know how il do the logic ngl
