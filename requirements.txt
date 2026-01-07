@@ -1,0 +1,6 @@
+vdf
+pygame
+keyboard
+pyautogui
+flask
+pillow

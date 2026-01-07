@@ -14,3 +14,5 @@ bullets - Simple fiX
 add 8 4 somehow
 
 Add duration and chance.
+
+alt tab with stake

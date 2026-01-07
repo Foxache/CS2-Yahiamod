@@ -1,2 +1,2 @@
 hardmode_enabled=true
-failed_hardmode=2
+failed_hardmode=3
