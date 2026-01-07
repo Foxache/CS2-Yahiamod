@@ -10,7 +10,7 @@
 > [!NOTE]
 > This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
 
-# Manual installation SETUP 
+# Manual installation 
 
 > [!IMPORTANT]
 > This section is irrelevant with V2.4.0 as it is automated
