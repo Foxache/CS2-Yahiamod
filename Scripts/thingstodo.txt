@@ -1,0 +1,14 @@
+Affirmations must be typed out every 5 deaths
+- Idk how to stop players from playing while this is active but surely i can figure that out
+- use tkinter txt boxes? YES! Use a overlay like usual. Can be done with a one-time script like washee washee 
+
+rewrite how images are found to use a lookup title , still using random.choice, look for titleso f the same name
+use try except to try all possible audio file types
+
+Make a pip install instruction with Req.txt
+
+Markiplier reaction - Seperate file? Yes. Washee Washee works as a file seperate.
+
+bullets - Simple fix
+
+fix Family Guy Cutaway - Don't know how il do the logic ngl
