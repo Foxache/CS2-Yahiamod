@@ -64,7 +64,6 @@ if run_as_admin(False) == False:
 
                     save_path = os.path.join(SCRIPT_DIR, "save.txt")
 
-                    # ---------- LOAD ----------
                     try:
                         with open(save_path, "r", encoding="utf-8") as f:
                             lines = f.readlines()
@@ -78,7 +77,6 @@ if run_as_admin(False) == False:
                     # Get line 1 (index 1)
                     line = lines[1].strip()
 
-                    # ---------- UPDATE FAIL COUNT ----------
                     if line.startswith("failed_hardmode="):
                         try:
                             fails = int(line.split("=")[1]) + 1
@@ -90,7 +88,6 @@ if run_as_admin(False) == False:
                     # Write updated value to line 1
                     lines[1] = f"failed_hardmode={fails}\n"
 
-                    # ---------- SAVE ----------
                     with open(save_path, "w", encoding="utf-8") as f:
                         f.writelines(lines)
 
@@ -616,7 +613,7 @@ def run_server():
 def process_ui_events():
     try:
         while True:
-            event, payload = ui_queue.get_nowait()
+            event, payload = ui_queue.get_nowait() # There has to be a better way for this...
 
             if event == "kill":
                 kill()
