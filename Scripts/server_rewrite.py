@@ -663,7 +663,7 @@ def game_event():
         last_data = data
         
 
-    return "Counter Strike Response", 200
+    return "Yahiamod understood data", 200
 
 # Running Flask then root.mainloop doesnt work so we define the instructions for starting the flask server in a seperate function
 def run_server():
@@ -672,11 +672,40 @@ def run_server():
     app.run(host="127.0.0.1", port=5000, debug=False, threaded=True)
 
 def ui_worker():
+
+    valid_events = [ # untested lookup method
+        {"event": 'kill', "function": kill},
+        {"event": 'death', "function": death},
+        {"event": 'flash', "function": flash},
+        {"event": 'win', "function": win},
+        {"event": 'stake', "function": stake}, # Change wording of event, keep function name.
+        {"event": 'assist', "function": assist},
+        {"event": 'horse', "function": horse}
+    ]
+    
     while True:
         event, payload = ui_queue.get()  
-
+        
         def run_event():
-            if event == "kill": # Try an if-in queue system , getting the priority through a for loop, cleaner and faster(?) 
+
+            if event in valid_events["event"]: # not sure if this is correct syntax
+                # https://www.geeksforgeeks.org/python/python-store-function-as-dictionary-value/
+                # I need to find the function from the location of event in the valid_events dictionary.
+
+                # https://stackoverflow.com/questions/4391697/find-the-index-of-a-dict-within-a-list-by-matching-the-dicts-value
+                index = next((index for (index, d) in enumerate(lst) if d["event"] == event), None)
+                if index == None:
+                    print("[ERROR] Cant find Event in Valid_Events Index, Despite being a valid event.")
+                    break
+
+                # call function from index of dict.
+                
+                
+            else:
+                print(f"[ERROR] Unkown event in queue. Event {event}."
+
+            # old event checking method:
+            if event == "kill": 
                 kill()
             elif event == "death":
                 death()
@@ -691,10 +720,10 @@ def ui_worker():
             elif event == "horse":
                 horse()
 
-        # schedule on main thread to avoid TKINTER throwing a tantrum
+        # schedule on main thread to avoid tk throwing a tantrum like it always does
         root.after(0, run_event)
 
-        # wait until overlay finishes
+        # ensure overlay finishes
         overlay_done.wait()
 
         ui_queue.task_done()
