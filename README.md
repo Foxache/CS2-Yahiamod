@@ -22,10 +22,7 @@ Example adding a new file:
 ```
 DEATH_PATHS = [
     {"image": "baby.png", "sound": "lobotomy.mp3"},
-    {"image": "kys.png", "sound": "kys.mp3"},
-    {"image": "nananaboobooboo.png", "sound": "gmod.mp3"},
-    {"image": "cross.png", "sound": "cross.mp3"},
-    {"image": "awesome.png", "sound": "awesome.mp3"},
+    ...
     {"image": "yahiamice.gif", "sound": "whatisapp.ogg"},
     {"image": "sleep.png", "sound": "sleep.mp3"} # This file does not have a comma at the end , marking the end of the dictionary.
 ]
@@ -34,12 +31,9 @@ So to add a new file we must add a new item into the dictionary
 ```
 DEATH_PATHS = [
     {"image": "baby.png", "sound": "lobotomy.mp3"},
-    {"image": "kys.png", "sound": "kys.mp3"},
-    {"image": "nananaboobooboo.png", "sound": "gmod.mp3"},
-    {"image": "cross.png", "sound": "cross.mp3"},
-    {"image": "awesome.png", "sound": "awesome.mp3"},
+    ...
     {"image": "yahiamice.gif", "sound": "whatisapp.ogg"},
-    {"image": "new.gif", "sound": "new.ogg"}, # The new file , with a comma. 
+    **{"image": "new.gif", "sound": "new.ogg"}, # The new file , with a comma. **
     {"image": "sleep.png", "sound": "sleep.mp3"} # This is still the last file, so does not have a comma
 ]
 ```
