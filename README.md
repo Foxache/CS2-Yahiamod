@@ -10,6 +10,39 @@
 > [!NOTE]
 > This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
 
+# How to add custom images with sounds
+
+Yahiamod uses look-up tables to determine where to look for images.
+Kill and death effects have look-up tables to easily add and change the images.
+The look-up tables can be found in server.py
+
+**The only thing to remember isthe last file in {} Must not have a comma at the end, unlike the rest.**
+Example adding a new file:
+```
+DEATH_PATHS = [
+    {"image": "baby.png", "sound": "lobotomy.mp3"},
+    {"image": "kys.png", "sound": "kys.mp3"},
+    {"image": "nananaboobooboo.png", "sound": "gmod.mp3"},
+    {"image": "cross.png", "sound": "cross.mp3"},
+    {"image": "awesome.png", "sound": "awesome.mp3"},
+    {"image": "yahiamice.gif", "sound": "whatisapp.ogg"},
+    {"image": "sleep.png", "sound": "sleep.mp3"} # This file does not have a comma at the end , marking the end of the dictionary.
+]
+```
+So to add a new file we must add a new item into the dictionary
+```
+DEATH_PATHS = [
+    {"image": "baby.png", "sound": "lobotomy.mp3"},
+    {"image": "kys.png", "sound": "kys.mp3"},
+    {"image": "nananaboobooboo.png", "sound": "gmod.mp3"},
+    {"image": "cross.png", "sound": "cross.mp3"},
+    {"image": "awesome.png", "sound": "awesome.mp3"},
+    {"image": "yahiamice.gif", "sound": "whatisapp.ogg"},
+    {"image": "new.gif", "sound": "new.ogg"}, # The new file , with a comma. 
+    {"image": "sleep.png", "sound": "sleep.mp3"} # This is still the last file, so does not have a comma
+]
+```
+
 # Manual installation 
 
 > [!IMPORTANT]
