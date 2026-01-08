@@ -33,7 +33,7 @@ DEATH_PATHS = [
     {"image": "baby.png", "sound": "lobotomy.mp3"},
     ...
     {"image": "yahiamice.gif", "sound": "whatisapp.ogg"},
-    **{"image": "new.gif", "sound": "new.ogg"}, # The new file , with a comma. **
+    {"image": "new.gif", "sound": "new.ogg"}, # The new file , with a comma. 
     {"image": "sleep.png", "sound": "sleep.mp3"} # This is still the last file, so does not have a comma
 ]
 ```
