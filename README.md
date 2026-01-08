@@ -1,14 +1,38 @@
 # CS2-Yahiamod
-## A fun little port of Yahiamod for Counter Strike 2 using Counter Strike 2 Gamestate Intergration
-
-## **The youtube video isnt made yet** , im just lazy and dont want to update it later.
+### A of Yahiamod for Counter Strike 2 using CS:GSI
 
 > [!CAUTION]
 > This mod is not finished at this point in time , and as such is in a "beta" phase as I add features and try to make the experience better.
-> All releases are stable versions , downloading directly from the current git is a risk you are accepting.
+> All releases are stable versions , downloading directly from the current git respository (not a release) is a risk you are accepting.
 
-> [!NOTE]
-> This mod may increase lag as it works with CS:GSI over the network, trying to have real-time actions uses bandwidth.
+To use CS2 Yahiamod, simply download the latest release and run "yahiamod.py" using any python version above 12.
+
+
+# Features
+
+While this script is supposed to be a direct port of Yahiamod for Balatro , i have taken some other memes , and creative liberties, aswell that better fit CS2.
+All features here are (mostly) spoiler free. For a deeper look on these features , ~~check the youtube video~~ look at comments in the code!
+
+**Lobotomy** - you didnt die , your just sobering up from your lobotomy... sometimes you get that feeling you were playing something else...
+
+**Cantaloupe** - Your struggling to convince your spouse to elope with you.. maybe some kills would sway them.
+
+**Tasty as hell** - You have grown a strange fondness to the taste of your burnt uniform , makes you want to sing how good it is. 
+
+**horse** - so scary you would drop your weapon and run
+
+**Important video** - If you stand infront of your computer and open yahiamod.py 50 times , some say you will get an important video...
+
+**Lemur** - Think fast chucklenuts!
+
+**Moroccan internet** -  If your ping-meter goes to high , your are forcibly removed and shipped to morocco.
+This feature is too complex to work within Yahiamod to an acceptable standard. It is still usable by running the script manually. To close it, exit python  using Taskmanager
+
+~~**That one french tiktoker with that hell of a dumpy** - He kindly reminds you if you need more bullets.~~ Not inside V2.4.0, needs a patch.
+
+~~**21 kid** - 21 kid helpfully reminds you when you have 9 , 10 or 21 bullets left.~~ Not inside V2.4.0, needs a patch.
+
+~~**DR whatsapp** - You get a paper cut and lose some health , so you whatsapp your doctor for help.~~ Not inside V2.4.0, needs a patch.
 
 # Manual installation 
 
@@ -65,33 +89,6 @@ Place "gamestate_integration_yahamouse.cfg" into this folder.
 
 Thats all for the setup!
 
-# Features
-While this script is supposed to be a direct port of Yahiamod for Balatro , i have taken some other memes aswell that better fit CS2.
-All features here are (mostly) spoiler free. For a deeper look on these features , check the youtube video.
-
-**That one french tiktoker with that hell of a dumpy** - He kindly reminds you if you need more bullets.
-
-**Mucho Texto** - Anti-spam chat feature 
-> [!CAUTION]
-> This feature can fire when outside of Counter Strike
-
-**21 kid** - 21 kid helpfully reminds you when you have 9 , 10 or 21 bullets left.
-
-**Lobotomy** - you didnt die , your just sobering up from your lobotomy... sometimes you get that feeling you should be playing balatro..
-
-**Cantaloupe** - Your struggling to convince your spouse to elope with you.. maybe some kills would change their mind.
-
-**Tasty as hell** - You have grown a strange fondness to the taste of your burnt uniform , makes you want to sing how good it is. 
-
-**Fishy friend** - If you die too much , your fishy friend comes in to help :]
-
-**Moroccan internet** - (this feature is complicated. want a full breakdown? check the video on my channel.) If your ping-meter goes to high , your are forcibly removed and shipped to morocco.
-
-**Important video** - If you stand infront of your computer and open main.py 50 times , some say you will get an important video...
-
-**Lemur** - Think fast chucklenuts!
-
-**DR whatsapp** - You get a paper cut and lose some health , so you whatsapp your doctor for help.
 
 **HIT UP THE SLOTS** - If you gain or lose a significant amount of money , you are sent to gamble.
 
