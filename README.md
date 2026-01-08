@@ -17,7 +17,7 @@ Yahiamod uses look-up tables to determine where to look for images.
 Kill and death effects have look-up tables to easily add and change the images.
 The look-up tables can be found in server.py
 
-**The only thing to remember isthe last file in {} Must not have a comma at the end, unlike the rest.**
+**The only thing to remember is the last file in {} Must not have a comma at the end, unlike the rest.**
 Example adding a new file:
 ```
 DEATH_PATHS = [
