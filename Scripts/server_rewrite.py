@@ -676,7 +676,7 @@ def ui_worker():
         event, payload = ui_queue.get()  
 
         def run_event():
-            if event == "kill":
+            if event == "kill": # Try an if-in queue system , getting the priority through a for loop, cleaner and faster(?) 
                 kill()
             elif event == "death":
                 death()
