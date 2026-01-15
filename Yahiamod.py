@@ -2,6 +2,9 @@ import importlib.util
 import sys
 import os
 import subprocess
+from sys import system
+
+system('mode con: cols=200 lines=49')
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
