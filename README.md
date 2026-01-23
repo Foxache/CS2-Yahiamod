@@ -28,6 +28,10 @@ All features here are (mostly) spoiler free. For a deeper look on these features
 **Moroccan internet** -  If your ping-meter goes to high , your are forcibly removed and shipped to morocco.
 This feature is too complex to work within Yahiamod to an acceptable standard. It is still usable by running the script manually. To close it, exit python  using Taskmanager
 
+**HIT UP THE SLOTS** - If you gain or lose a significant amount of money , you are sent to gamble.
+
+**Yahiassistance** - Everybody knows getting assists is way worse than getting kills , so if you get too many assists , Yahiamice assists you with his encouraging voice.
+
 ~~**That one french tiktoker with that hell of a dumpy** - He kindly reminds you if you need more bullets.~~ Not inside V2.4.0, needs a patch.
 
 ~~**21 kid** - 21 kid helpfully reminds you when you have 9 , 10 or 21 bullets left.~~ Not inside V2.4.0, needs a patch.
@@ -90,6 +94,3 @@ Place "gamestate_integration_yahamouse.cfg" into this folder.
 Thats all for the setup!
 
 
-**HIT UP THE SLOTS** - If you gain or lose a significant amount of money , you are sent to gamble.
-
-**Yahiassistance** - Everybody knows getting assists is way worse than getting kills , so if you get too many assists , Yahiamice assists you with his encouraging voice.
