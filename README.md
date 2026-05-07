@@ -1,5 +1,6 @@
 # CS2-Yahiamod
 ### A of Yahiamod for Counter Strike 2 using CS:GSI
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/47b0ccb1b0034916ae0b66f379164e14)](https://app.codacy.com/gh/Foxache/CS2-Yahiamod/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 > [!CAUTION]
 > This mod is not finished at this point in time , and as such is in a "beta" phase as I add features and try to make the experience better.
